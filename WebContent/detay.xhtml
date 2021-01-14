@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+<!-- Opsiyonel tema -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></link></h:head>
+<body>
+
+<p:button value="Anasayfa" outcome="homePage"/>
+<h:form update="hata" class="form-group" >
+
+	<p:panel header="Kisi Ayrıntıları" style="margin-bottom:10px;width:920px;margin-left:220px" class="text-center">
+
+	<p:panelGrid  columns="2"  style="width:300px;margin-top:20px;margin-left:280px" >
+	<h:outputLabel value="Isim:"></h:outputLabel>
+	<h:outputText value="#{detay.person.ad}"></h:outputText>
+	
+	<h:outputLabel value="Soyisim:"></h:outputLabel>
+	<h:outputText value="#{detay.person.soyad}"></h:outputText>
+	
+
+	<h:outputLabel value="TC:"></h:outputLabel>
+	<h:outputText value="#{detay.person.tc}"></h:outputText></p:panelGrid></p:panel></h:form>
+	
+	<h:form id="display" class="text-center">
+    <p:panelGrid columns="1"  style="margin-top:20px;backgroud-color:red;width:920px;margin-left:220px" layout="grid" >
+	
+	<h:outputLabel for="telefon" value="Telefon ekle" />
+		<p:inputMask id="telefon" value="#{detay.tel_no}"  mask="9 (999) 999 99 99"/>
+		<p:commandButton value="Kaydet" action="#{detay.telefon_kaydet()}"
+			update="display:table"/>
+		<h:outputText id="hata" value="#{detay.hata_mesaji1}"/>
+
+
+		<p:dataTable id="table" value="#{detay.phones}" var="telefon" style="margin-left:170px;width:550px">
+			<p:column headerText="#">
+				<h:outputText value="#{detay.phones.indexOf(telefon)+1}" />
+			</p:column>
+			<p:column headerText="Telefon Numarası">
+				<h:outputText value="#{telefon.telefon_no}"></h:outputText>
+			</p:column>
+			
+			<p:column headerText="İşlem">
+				<h:commandButton value="Sil" action="#{detay.telefon_sil(telefon)}" update="display:table" />
+			</p:column>
+			
+		</p:dataTable>
+	
+	</p:panelGrid>
+	</h:form>
+	
+
+
+
+
+
+
+
+
+</body>
+</html>

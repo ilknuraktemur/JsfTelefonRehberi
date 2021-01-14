@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+<!-- En son derlenmiş ve minimize edilmiş CSS -->
+
+
+<h:head>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+<!-- Opsiyonel tema -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></link>
+<style>
+
+</style>
+<!-- En son derlenmiş ve minimize edilmiş JavaScript --></h:head>
+<body>
+	<h:form update="hata" class="form-group" >
+	<p:panel header="Telefon Rehberi" style="margin-bottom:10px;"  class="text-center">
+	
+	<p:panelGrid columns="1" layout="grid"  columnClasses="p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3">
+		
+		<h:outputLabel for="isim" value="Isim:" />
+		<p:inputText id="isim" value="#{managedB.isim}"/>
+			
+		<h:message for="isim" style="color:red" />
+
+		<h:outputLabel for="soyisim" value="Soyisim:" />
+			<p:inputText id="soyisim" value="#{managedB.soyisim}" />
+			
+			<h:outputLabel for="tc" value="TC:"  />
+			<p:inputText id="tc" value="#{managedB.tc}" />
+			
+			<p:commandButton value="Bul" action="#{managedB.kisiBul()}"
+				update="display" />
+			<p:commandButton value="Kaydet" action="#{managedB.kisiKaydet()}"
+				update="display:table hata hata3" />
+			<h:outputText style="color:red" id="hata" value="#{managedB.hata_mesaji2}"/>
+			<h:outputText style="color:red" id="hata3" value="#{managedB.hata_mesaji3}"/>
+		</p:panelGrid>
+			</p:panel>
+				
+	</h:form>
+	<h:form id="display" style="width:1000px;margin-left:160px">
+
+
+		<p:dataTable id="table" value="#{managedB.sorgusonucu}" var="kisi">
+			<p:column headerText="Isim">
+				
+				<h:outputText value="#{kisi.ad}"  rendered="#{!kisi.gorunurluk}"></h:outputText>
+				<p:inputText value="#{kisi.ad}" rendered="#{kisi.gorunurluk}"></p:inputText>
+			</p:column>
+			<p:column headerText="Soyisim">
+				<h:outputText value="#{kisi.soyad}"  rendered="#{!kisi.gorunurluk}"></h:outputText>
+				<p:inputText value="#{kisi.soyad}" rendered="#{kisi.gorunurluk}"></p:inputText>
+			</p:column>
+
+			<p:column headerText="Tc">
+				<h:outputText value="#{kisi.tc}"  rendered="#{!kisi.gorunurluk}"></h:outputText>
+				<p:inputText value="#{kisi.tc}" rendered="#{kisi.gorunurluk}"></p:inputText>
+			</p:column>
+
+			<p:column headerText="Detay">
+				<p:commandButton value="Detay>" action="#{managedB.redirectDetay(kisi)}"  rendered="#{!kisi.gorunurluk}"></p:commandButton>
+			</p:column>
+			
+			<p:column headerText="Silme">
+				<p:commandButton value="Sil"
+					actionListener="#{managedB.kisi_Sil(kisi)}" update="display"  rendered="#{!kisi.gorunurluk}"></p:commandButton>
+
+
+			</p:column>
+			<p:column headerText="Guncelleme">
+				<p:commandButton value="Guncelle"
+					action="#{managedB.gorunurlugu_degistir(kisi)}" update="display" rendered="#{!kisi.gorunurluk}"></p:commandButton>
+				<p:commandButton value="Degisiklikleri kaydet"
+					action="#{managedB.kisi_guncelle(kisi)}" update="display" rendered="#{kisi.gorunurluk}">
+					<h:outputText style="color:red" id="hata3" value="#{managedB.hata_mesaji3}"/>
+					<h:outputText style="color:red" id="hata" value="#{managedB.hata_mesaji2}"/>
+					</p:commandButton>
+				<p:commandButton type="reset" value="Degisiklikleri Sıfırla" update="display" rendered="#{kisi.gorunurluk}" actionListener="#{managedB.gorunurlugu_degistir2(kisi)}"> </p:commandButton>
+
+			</p:column>
+			
+			
+			
+		</p:dataTable>
+	</h:form>
+
+
+
+
+
+
+</body>
+
+</html>
